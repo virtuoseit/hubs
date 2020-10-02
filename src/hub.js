@@ -1556,6 +1556,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   hubPhxChannel.on("hub_refresh", ({ session_id, hubs, stale_fields }) => {
     const hub = hubs[0];
     const userInfo = hubChannel.presence.state[session_id];
+    const displayName = (userInfo && userInfo.metas[0].profile.displayName) || "API";
 
     window.APP.hub = hub;
     updateUIForHub(hub, hubChannel);
@@ -1570,7 +1571,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       addToPresenceLog({
         type: "scene_changed",
-        name: userInfo.metas[0].profile.displayName,
+        name: displayName,
         sceneName: hub.scene ? hub.scene.name : "a custom URL"
       });
     }
@@ -1594,7 +1595,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       addToPresenceLog({
         type: "hub_name_changed",
-        name: userInfo.metas[0].profile.displayName,
+        name: displayName,
         hubName: hub.name
       });
     }
